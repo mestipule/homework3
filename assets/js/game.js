@@ -2,7 +2,7 @@ var player = prompt("What is your name?");
 console.log ("Hello " + player+"!");
 var ask = confirm("Are you ready to play?");
 alert("Great. Let's begin!");
-var guessWords = ["caroling", "christmas", "angel", "gift"];
+var guessWords = ["caroling", "christmas", "angel", "gift", "presents", "snowflakes",];
 var selectedWords = guessWords[Math.floor(Math.random()*guessWords.length)];
 var incorrectGuessCount = 0;
 var replaceGuess = [];
@@ -11,10 +11,13 @@ for (var i=0; i<selectedWords.length;i++){
   replaceGuess[i]="_";
 }
 var instruction = "Choose letters to reveal the word! -> ";
+
 for (var i=0; i<replaceGuess.length;i++){
   instruction = instruction + replaceGuess[i] + " ";
 }
-guessDisplay.textContent = instruction;  
+// $("#word-to-guess").attr(instruction);//not working
+  $("#guess-display").append(instruction);//not working
+//guessDisplay.textContent = instruction;  
 console.log(instruction);
 
 
@@ -24,9 +27,13 @@ function checkLetter(selectedLetter){
     for (var i=0; i<replaceGuess.length; i++){
       instruction = instruction + replaceGuess[i] + " ";
     }
-    incorrectGuessCount++;
+    incorrectGuessCount++;  
+    //incorrectGuessCount = parseInt(incorrectGuessCount);
+    //$("#wrong-letter").append(incorrectGuessCount);
+    
     if (checkForTheLoss()){
       instruction = "Sorry! You lose, try again next time";
+      guessDisplay.textContent = instruction;
       var playAgain = confirm("You Lose!!! Do you want to play again?");
       if (playAgain){
       restartGame();
@@ -45,6 +52,7 @@ function checkLetter(selectedLetter){
     
     if (checkForTheWin()){
       instruction = "You Win!";
+      guessDisplay.textContent = instruction;
       var playAgain = confirm("You Win!!! Do you want to play again?");
       if (playAgain){
         restartGame();
@@ -53,6 +61,11 @@ function checkLetter(selectedLetter){
     
   } 
   guessDisplay.textContent = instruction;
+  incorrectGuessCount = parseInt(incorrectGuessCount);
+  $("#wrong-letter").text("Number of Wrong Guesses:" + incorrectGuessCount);
+  var guessMax = 5;
+  var guessRem =  guessMax - incorrectGuessCount;
+  $("#guess-remaining").text("Number of Remaining Guesses: " + guessRem);
 }
 
 document.onkeyup = function(event) {
@@ -69,7 +82,7 @@ function checkForTheWin(){
 }
 
 function checkForTheLoss(){
-  if (incorrectGuessCount==3){
+  if (incorrectGuessCount==5){
     return true;
   }
   else {
