@@ -24,6 +24,14 @@
   font-size: 15pt;
   color: #007399;
 }
+#counter-Win{
+  font-size: 15pt;
+  color: #007399;
+}
+#counter-Lose{
+  font-size: 15pt;
+  color: #007399;
+}
 .display-3{
   text-align: center;
   font-weight: bold;

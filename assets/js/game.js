@@ -7,6 +7,8 @@ var selectedWords = guessWords[Math.floor(Math.random()*guessWords.length)];
 var incorrectGuessCount = 0;
 var replaceGuess = [];
 var guessDisplay = document.getElementById("guess-display");
+var winCounter = 0;
+var loseCounter = 0;
 for (var i=0; i<selectedWords.length;i++){
   replaceGuess[i]="_";
 }
@@ -34,10 +36,10 @@ function checkLetter(selectedLetter){
     if (checkForTheLoss()){
       instruction = "Sorry! You lose, try again next time";
       guessDisplay.textContent = instruction;
-      var playAgain = confirm("You Lose!!! Do you want to play again?");
-      if (playAgain){
-      restartGame();
-      }
+      loseCounter++;
+      var loseDisplay = $("#counter-Lose");
+      loseDisplay.text("Number of Losses:" + loseCounter);
+      waitToSayYouLose();
     }
   }  else {
     for (var i=0; i<selectedWords.length;i++){
@@ -53,12 +55,11 @@ function checkLetter(selectedLetter){
     if (checkForTheWin()){
       instruction = "You Win!";
       guessDisplay.textContent = instruction;
-      var playAgain = confirm("You Win!!! Do you want to play again?");
-      if (playAgain){
-        restartGame();
-      }
+      winCounter++;
+      var winDisplay = $("#counter-Win");
+      winDisplay.text("Number of Wins:" + winCounter); 
+      waitToSayYouWin();
     }
-    
   } 
   guessDisplay.textContent = instruction;
   incorrectGuessCount = parseInt(incorrectGuessCount);
@@ -66,6 +67,21 @@ function checkLetter(selectedLetter){
   var guessMax = 5;
   var guessRem =  guessMax - incorrectGuessCount;
   $("#guess-remaining").text("Number of Remaining Guesses: " + guessRem);
+}
+function waitToSayYouLose(){
+  setTimeout(function(){
+    var playAgain = confirm("You Lose!!! Do you want to play again?");
+    if (playAgain){
+    restartGame();
+  }}, 1000);
+}
+
+function waitToSayYouWin(){
+  setTimeout(function(){
+  var playAgain = confirm("You Win!!! Do you want to play again?");
+  if (playAgain){
+    restartGame();
+  }}, 1000);
 }
 
 document.onkeyup = function(event) {
